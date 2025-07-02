@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 beforeAll(async () => {
     // For a real project, use an in-memory test DB
     // For this assignment, connecting to your dev DB is okay
-    const url = process.env.MONGODB_URI;
+    const url = process.env.MONGO_URI;
     await mongoose.connect(url, { useNewUrlParser: true });
 });
 
