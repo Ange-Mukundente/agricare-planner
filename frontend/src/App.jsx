@@ -1,5 +1,5 @@
 // frontend/src/App.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; // <--- Make sure both are used
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3001/api/tasks';
@@ -7,7 +7,8 @@ const API_URL = 'http://localhost:3001/api/tasks';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
-
+  // ... rest of the code... NO unused variables
+}
   // Fetch tasks on component mount
   useEffect(() => {
     axios.get(API_URL).then(response => {
