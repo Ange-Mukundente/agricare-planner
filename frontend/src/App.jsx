@@ -7,7 +7,11 @@ const API_URL = 'http://localhost:3001/api/tasks';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
-  // ... rest of the code... NO unused variables
+
+  const handleDeleteTask = (taskId) => {
+    axios.delete(`${API_URL}/${taskId}`).then(() => {
+      setTasks(tasks.filter(task => task._id !== taskId));
+    });
 }
   // Fetch tasks on component mount
   useEffect(() => {
