@@ -1,4 +1,3 @@
-# .github/workflows/ci.yml
 name: AgriCare CI Pipeline
 
 on:
@@ -26,10 +25,11 @@ jobs:
 
       - name: Run Backend Tests
         run: cd backend && npm test
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }} # <-- THE FIX IS HERE
 
       - name: Install Frontend Dependencies
         run: cd frontend && npm ci
 
-      # Add frontend tests/linting here if you have them
       - name: Run Frontend Build (as a check)
         run: cd frontend && npm run build
