@@ -2,8 +2,6 @@
 
 AgriCare Planner is a task management web app tailored for small-scale livestock and crop farmers. It enables users to organize daily farming tasks like feeding schedules, planting, and vaccination dates.
 
-**Live Demo URL:** [Link to be added after deployment in a later phase]
-
 ## ⭐ Core Features
 
 - **Create & Manage Tasks:** Easily add, update, and delete farming tasks.
