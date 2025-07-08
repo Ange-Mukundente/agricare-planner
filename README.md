@@ -30,7 +30,7 @@ AgriCare Planner is a task management web app tailored for small-scale livestock
 1.  **Clone the repository:**
 
     ```sh
-    git clone https://github.com/<your-username>/agricare-planner.git
+    git clone https://github.com/Ange-Mukundente/agricare-planner.git
     cd agricare-planner
     ```
 
@@ -44,7 +44,7 @@ AgriCare Planner is a task management web app tailored for small-scale livestock
     Create a `.env` file in the `backend` directory and add your MongoDB connection string:
 
     ```
-    MONGODB_URI=your_mongodb_connection_string
+    MONGODB_URI=mongodb://localhost:27017/agricare
     ```
 
     Then, run the backend server:
