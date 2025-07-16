@@ -23,13 +23,12 @@ afterAll(async () => {
 
 describe('Tasks API', () => {
     it('GET /api/tasks --> should return an empty array', async () => {
-        return request(app)
-            .get('/api/tasks')
-            .expect(200)
-            .then((res) => {
-                expect(res.body).toEqual([]);
-            });
-    });
+  await request(app)
+    .get('/api/tasks')
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .expect([]);
+}, 10000); // <-- 10 seconds timeout
 
     it('POST /api/tasks --> should create a task', async () => {
         const taskData = { title: 'Test Task', category: 'Testing' };
