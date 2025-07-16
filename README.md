@@ -1,29 +1,37 @@
 # AgriCare Planner 🚜
 
-AgriCare Planner is a task management web app tailored for small-scale livestock and crop farmers. It enables users to organize daily farming tasks like feeding schedules, planting, and vaccination dates.
+AgriCare Planner is a task management web application meticulously designed for small-scale livestock and crop farmers. It provides a simple, intuitive interface to organize, track, and manage daily farming operations, helping to improve productivity and ensure crucial tasks are never forgotten.
+
+**Live Demo URL:** [Link to be added after Phase 2 deployment]
+
+---
 
 ## ⭐ Core Features
 
-- **Create & Manage Tasks:** Easily add, update, and delete farming tasks.
-- **Categorized Dashboard:** View tasks organized by categories like 'Livestock' or 'Crops'.
-- **Status Tracking:** Mark tasks as completed to track your progress.
+- **Task Creation:** Quickly add farming-related tasks with descriptions and categories.
+- **Categorized Dashboard:** View all tasks on a clean, responsive dashboard.
+- **Status Tracking:** Mark tasks as completed to track progress.
+- **Full CRUD Functionality:** Create, Read, and Delete tasks with ease.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Architecture
 
-- **Frontend:** React, Vite, Tailwind CSS
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
-- **DevOps:** GitHub Actions (CI), Jest, Supertest
+| Area         | Technology                                |
+| :----------- | :---------------------------------------- |
+| **Frontend** | React, Vite, Tailwind CSS, Axios          |
+| **Backend**  | Node.js, Express                          |
+| **Database** | MongoDB (via MongoDB Atlas)               |
+| **DevOps**   | GitHub Actions (CI/CD), Docker, Terraform |
+| **Testing**  | Jest, Supertest                           |
 
 ## 🚀 Local Development Setup
 
 ### Prerequisites
 
 - Node.js (v18.x or later)
-- npm or yarn
-- A running MongoDB instance (local or a free Atlas cluster)
+- npm (v9.x or later)
+- A free [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) account.
 
-### Installation
+### Installation Guide
 
 1.  **Clone the repository:**
 
@@ -39,10 +47,12 @@ AgriCare Planner is a task management web app tailored for small-scale livestock
     npm install
     ```
 
-    Create a `.env` file in the `backend` directory and add your MongoDB connection string:
+    Create a `.env` file in the `backend` directory. Add your MongoDB Atlas connection string.
 
-    ```
-    MONGODB_URI=mongodb://localhost:27017/agricare
+    ```env
+    # backend/.env
+    MONGODB_URI=mongodb+srv://mgange0228:WZ67sEcz7GtngHel@cluster0.nm5twgy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    PORT=3001
     ```
 
     Then, run the backend server:
@@ -51,22 +61,67 @@ AgriCare Planner is a task management web app tailored for small-scale livestock
     npm run dev
     ```
 
-    The backend will be running on `http://localhost:3001`.
-
 3.  **Setup Frontend (in a new terminal):**
+
     ```sh
     cd frontend
     npm install
     npm run dev
     ```
-    The frontend will be running on `http://localhost:5173`.
 
-## CI Pipeline
+    The frontend will be running at `http://localhost:5173`.
 
-This project uses GitHub Actions for Continuous Integration. The pipeline automatically runs on every Pull Request to `develop` and `main` to:
+    ## 📖 API Documentation
 
-1.  Install dependencies for both frontend and backend.
-2.  Run all backend unit tests using Jest.
-3.  Ensure the frontend application can be successfully built.
+The backend provides a RESTful API for managing tasks. The base URL for all endpoints is `/api/tasks`.
 
-Merges to the `main` branch are protected and require all status checks to pass.
+### Create a Task
+
+- **Endpoint:** `POST /api/tasks`
+- **Description:** Adds a new task to the database.
+- **Request Body (JSON):**
+  ```json
+  {
+    "title": "string (required)",
+    "category": "string (required)",
+    "description": "string (optional)",
+    "dueDate": "Date (optional)"
+  }
+  ```
+- **Success Response:** `201 Created` with the new task object.
+- **Error Response:** `400 Bad Request` if required fields are missing.
+
+### Get All Tasks
+
+- **Endpoint:** `GET /api/tasks`
+- **Description:** Retrieves a list of all tasks.
+- **Success Response:** `200 OK` with an array of task objects.
+
+### Update a Task
+
+- **Endpoint:** `PUT /api/tasks/:id`
+- **Description:** Updates an existing task by its ID.
+- **Request Body (JSON):** An object containing any of the task fields to be updated.
+  ```json
+  {
+    "title": "New title",
+    "status": "completed"
+  }
+  ```
+- **Success Response:** `200 OK` with the updated task object.
+
+### Delete a Task
+
+- **Endpoint:** `DELETE /api/tasks/:id`
+- **Description:** Deletes a task by its ID.
+- **Success Response:** `204 No Content` with an empty body.
+
+## ⚙️ CI/CD Pipeline
+
+This project utilizes **GitHub Actions** for Continuous Integration. The pipeline automatically triggers on every Pull Request to `develop` and `main` and performs the following:
+
+1.  Installs all dependencies for frontend and backend.
+2.  Runs the backend Jest test suite against a live database. This requires a `MONGODB_URI` secret to be configured in the repository settings.
+3.  Builds the frontend application to ensure it's free of errors.
+
+Merges into the `main` branch are protected and require all status checks to pass.
