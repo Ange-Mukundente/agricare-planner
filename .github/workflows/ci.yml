@@ -1,35 +1,64 @@
+# .github/workflows/ci.yml
+
+# Name of the workflow, which will be displayed on the Actions tab
 name: AgriCare CI Pipeline
 
+# --- Trigger Conditions ---
+# This workflow runs automatically on any pull request that targets the 'main' or 'develop' branches
 on:
   pull_request:
     branches: [main, develop]
 
+# --- Jobs ---
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # The name of our single job is 'build-and-test'
   build-and-test:
-    name: Build and Test
+    # A human-friendly name for the job, displayed on GitHub
+    name: Build and Test Application
+
+    # The type of runner that the job will run on. 'ubuntu-latest' is a standard, reliable choice.
     runs-on: ubuntu-latest
 
+    # A sequence of tasks called 'steps' that will be executed as part of the job
     steps:
+      # Step 1: Check out the repository code
+      # This action checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # Step 2: Set up the Node.js environment
+      # This action sets up a Node.js environment for use in actions.
+      - name: Setup Node.js v18
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: "18.x"
+          # This option caches npm dependencies to speed up future builds
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
 
+      # Step 3: Install Backend Dependencies
+      # 'npm ci' is used instead of 'npm install' for CI because it's faster and safer,
+      # as it installs dependencies exactly as defined in the package-lock.json file.
       - name: Install Backend Dependencies
         run: cd backend && npm ci
 
+      # Step 4: Run Backend Unit Tests
+      # This is the most critical step for the backend.
       - name: Run Backend Tests
         run: cd backend && npm test
+        # The 'env' keyword injects environment variables into this specific step.
+        # We are securely passing the MONGODB_URI, which is stored in GitHub Secrets,
+        # to our test runner so it can connect to the database.
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
+      # Step 5: Install Frontend Dependencies
       - name: Install Frontend Dependencies
         run: cd frontend && npm ci
 
-      - name: Run Frontend Build (as a check)
+      # Step 6: Build the Frontend Application
+      # 'npm run build' compiles the React/Vite app into static HTML/CSS/JS files.
+      # This step acts as a check to ensure there are no syntax errors or build issues in the frontend code.
+      - name: Run Frontend Build Check
         run: cd frontend && npm run build
