@@ -1,3 +1,8 @@
+# Terraform state and plugins
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
 # Dependencies
 /node_modules
 /frontend/node_modules
@@ -11,8 +16,3 @@
 # Build files
 /dist
 /build
-# Terraform state and plugins
-.terraform/
-*.tfstate
-*.tfstate.backup
-.terraform.lock.hcl
