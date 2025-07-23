@@ -11,3 +11,8 @@
 # Build files
 /dist
 /build
+# Terraform state and plugins
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
