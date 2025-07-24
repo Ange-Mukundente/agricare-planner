@@ -125,3 +125,5 @@ This project utilizes **GitHub Actions** for Continuous Integration. The pipelin
 3.  Builds the frontend application to ensure it's free of errors.
 
 Merges into the `main` branch are protected and require all status checks to pass.
+
+Author:Ange Mukundente
