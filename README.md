@@ -2,7 +2,6 @@
 
 AgriCare Planner is a task management web application meticulously designed for small-scale livestock and crop farmers. It provides a simple, intuitive interface to organize, track, and manage daily farming operations, helping to improve productivity and ensure crucial tasks are never forgotten.
 
-**Live Demo URL:** [Link to be added after Phase 2 deployment]
 
 ---
 
@@ -48,12 +47,6 @@ AgriCare Planner is a task management web application meticulously designed for 
     ```
 
     Create a `.env` file in the `backend` directory. Add your MongoDB Atlas connection string.
-
-    ```env
-    # backend/.env
-    MONGODB_URI=mongodb+srv://mgange0228:WZ67sEcz7GtngHel@cluster0.nm5twgy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-    PORT=3001
-    ```
 
     Then, run the backend server:
 
@@ -126,4 +119,13 @@ This project utilizes **GitHub Actions** for Continuous Integration. The pipelin
 
 Merges into the `main` branch are protected and require all status checks to pass.
 
-Author:Ange Mukundente
+## 🐳 Running with Docker
+
+You can run the entire application locally using Docker and Docker Compose.
+
+1.  Ensure you have Docker installed.
+2.  From the project root, run:
+    ```sh
+    docker-compose up --build
+    ```
+3.  The application will be available at `http://localhost:8080`.
