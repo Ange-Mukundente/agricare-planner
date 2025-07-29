@@ -1,0 +1,54 @@
+# Use version 3.8 of the Docker Compose file format.
+version: '3.8'
+
+services:
+  # The Backend Service (Node.js API)
+  backend:
+    build:
+      context: ./backend  # Look for the Dockerfile in the 'backend' directory.
+      dockerfile: Dockerfile
+    container_name: agricare-backend
+    ports:
+      - "3001:3001"       # Map host port 3001 to container port 3001.
+    environment:
+      # Connect to the 'mongo' service defined below.
+      - MONGODB_URI=mongodb://mongo:27017/agricare
+      - PORT=3001
+    depends_on:
+      - mongo             # Don't start the backend until the mongo service is ready.
+    networks:
+      - app-network
+
+  # The Frontend Service (React App)
+  frontend:
+    build:
+      context: ./frontend # Look for the Dockerfile in the 'frontend' directory.
+      dockerfile: Dockerfile
+    container_name: agricare-frontend
+    ports:
+      - "8080:80"         # Map host port 8080 to the container's Nginx port 80.
+    depends_on:
+      - backend           # The frontend depends on the backend API.
+    networks:
+      - app-network
+
+  # The Database Service (MongoDB)
+  mongo:
+    image: mongo:6.0      # Use the official MongoDB 6.0 image.
+    container_name: agricare-db
+    ports:
+      - "27017:27017"     # Map the MongoDB port for optional direct access.
+    volumes:
+      - mongo-data:/data/db # Persist database data on the host machine.
+    networks:
+      - app-network
+
+# Define the network that allows services to communicate.
+networks:
+  app-network:
+    driver: bridge
+
+# Define the volume for persisting MongoDB data.
+volumes:
+  mongo-data:
+    driver: local
